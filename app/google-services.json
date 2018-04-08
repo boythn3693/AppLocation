@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "265926415593",
+    "firebase_url": "https://locationapp2-618ee.firebaseio.com",
+    "project_id": "locationapp2-618ee",
+    "storage_bucket": "locationapp2-618ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265926415593:android:f8d6b1503e67dd72",
+        "android_client_info": {
+          "package_name": "com.bbteam.locationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265926415593-gkeu6uh97njo9081safh7ul1anrq7afa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bbteam.locationapp",
+            "certificate_hash": "f873f575aadbb9cee5af6744bea01a28868dd9ba"
+          }
+        },
+        {
+          "client_id": "265926415593-6uhn503l111j5eghm1takgirc7012215.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcnSgttSSagXCgyiu-54wBG4R0i_Tymck"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265926415593-6uhn503l111j5eghm1takgirc7012215.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
