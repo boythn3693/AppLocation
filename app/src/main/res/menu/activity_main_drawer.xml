@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_currentLocation"
+            android:id="@+id/nav_findPlaces"
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Current Location" />
+            android:title="Find Places" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_enableTracking"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            app:actionLayout="@layout/action_view_switch"
+            android:title="Enable Tracking" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_familyLocation"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Family Location" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_addMember"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Add Member" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Log Out" />
     </group>
 
     <item android:title="Communicate">

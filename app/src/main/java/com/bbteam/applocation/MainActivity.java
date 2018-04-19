@@ -10,6 +10,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ActionProvider;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private SwitchCompat switcher;
     private boolean mPermissionDenied = false;
     private GoogleMap mMap;
 
@@ -65,6 +69,20 @@ public class MainActivity extends AppCompatActivity
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        Menu menu = navigationView.getMenu();
+        MenuItem menuItem = menu.findItem(R.id.nav_enableTracking);
+        View actionView = menuItem.getActionView();
+
+        switcher = (SwitchCompat) actionView.findViewById(R.id.switcher);
+        switcher.setChecked(true);
+        switcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, (switcher.isChecked()) ? "is checked!!!" : "not checked!!!", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
@@ -105,13 +123,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_currentLocation) {
+        if (id == R.id.nav_findPlaces) {
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_enableTracking) {
+            switcher.setChecked(!switcher.isChecked());
+            Snackbar.make(item.getActionView(), (switcher.isChecked()) ? "is checked" : "not checked", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_familyLocation) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_addMember) {
+
+        } else if (id == R.id.nav_logout){
 
         } else if (id == R.id.nav_share) {
 
