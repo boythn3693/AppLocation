@@ -2,8 +2,12 @@ package com.bbteam.applocation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +15,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.bbteam.applocation.fragment.AddFamilyFragment;
 import com.bbteam.applocation.object.Member;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -35,8 +39,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +59,8 @@ public class MainActivity extends AppCompatActivity
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks,
-        LocationListener {
+        LocationListener,
+        AddFamilyFragment.OnFragmentInteractionListener {
 
     public String userId = "nguyenvanbac";
 
@@ -87,6 +98,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Fragment newFragment = AddFamilyFragment.newInstance();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.map, newFragment).addToBackStack(null).commit();
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -181,7 +196,9 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         } else if (id == R.id.nav_familyLocation) {
-
+            Toast.makeText(getApplicationContext(), "Show family location clicked!",
+                    Toast.LENGTH_SHORT).show();
+            showFamilyLocation();
         } else if (id == R.id.nav_addMember) {
 
         } else if (id == R.id.nav_logout) {
@@ -271,7 +288,7 @@ public class MainActivity extends AppCompatActivity
     private void updateLocation(Member member) {
         Map<String, Object> memberValues = member.toMap();
         Map<String, Object> childUpdate = new HashMap<>();
-        childUpdate.put("group/group1/members/nguyenvannam", memberValues);
+        childUpdate.put("group/group1/members/nguyenvanbac", memberValues);
         myRef.updateChildren(childUpdate);
     }
 
@@ -335,7 +352,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.LENGTH_SHORT).show();
 
         // Displaying the new location on UI
-        displayLocation();
+        //displayLocation();
     }
 
     /**
@@ -417,6 +434,8 @@ public class MainActivity extends AppCompatActivity
         if (mLastLocation != null) {
             double latitude = mLastLocation.getLatitude();
             double longitude = mLastLocation.getLongitude();
+            Member member = new Member("nguyen van bac", Utils.getCurrentDateTime(), latitude, longitude);
+            updateLocation(member);
             Toast.makeText(this, latitude + " : " + longitude, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(null, "Couldn't get the location. Make sure location is enabled on the device", Toast.LENGTH_SHORT)
@@ -424,6 +443,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
     ////////////////////////// End Location Listener ////////////////////////
+
+
 
     @Override
     protected void onStart() {
@@ -448,4 +469,35 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         stopLocationUpdates();
     }
+
+    ////////////////////////// Start Show family location ///////////////////////
+    private void showFamilyLocation() {
+        myRef.child("group").child("group1").child("members")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Member member;
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            member = postSnapshot.getValue(Member.class);
+                            Marker marker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(member.lat, member.lng))
+                                    .title(member.name)
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+    ////////////////////////// End Show family location /////////////////////////
+
 }
