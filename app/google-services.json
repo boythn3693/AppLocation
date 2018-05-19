@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "282412804569",
+    "firebase_url": "https://applocationproject.firebaseio.com",
+    "project_id": "applocationproject",
+    "storage_bucket": "applocationproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282412804569:android:a160b5cad1033af1",
+        "android_client_info": {
+          "package_name": "bbteam.com.applocation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282412804569-j5iumtb50tmn4372rggd06bvmnvsvko5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtkf75M8943c-FDvNzoZMBw79gD36qiKc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
